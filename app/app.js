@@ -1,7 +1,7 @@
 'use strict';
 
 
-let containerElement = document.getElementById('container')
+let containerElement = document.getElementById('sec')
 
 let leftImageElement = document.getElementById('leftimge');
 let middleImageElement = document.getElementById('middleimge');
@@ -89,9 +89,11 @@ function renderThreeImage() {
 renderThreeImage();
 
 
-leftImageElement.addEventListener('click', handleClicking);
-middleImageElement.addEventListener('click', handleClicking);
-rightImageElement.addEventListener('click', handleClicking);
+// leftImageElement.addEventListener('click', handleClicking);
+// middleImageElement.addEventListener('click', handleClicking);
+// rightImageElement.addEventListener('click', handleClicking);
+
+containerElement.addEventListener('click' , handleClicking);
 
 
 function handleClicking(event) {
@@ -124,10 +126,9 @@ function handleClicking(event) {
 
     }else{
         // renderList();
-
-        leftImageElement.removeEventListener('click', handleClicking);
-        middleImageElement.removeEventListener('click', handleClicking);
-        rightImageElement.removeEventListener('click', handleClicking);
+        alert('Click Submit');
+        counts--;
+        containerElement.removeEventListener('click', handleClicking);
     
     }
 
