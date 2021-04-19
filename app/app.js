@@ -123,7 +123,7 @@ function handleClicking(event) {
         renderThreeImage();
 
     }else{
-        renderList();
+        // renderList();
 
         leftImageElement.removeEventListener('click', handleClicking);
         middleImageElement.removeEventListener('click', handleClicking);
@@ -134,9 +134,18 @@ function handleClicking(event) {
 
 }
 
+let button = document.getElementById('btn');
+button.addEventListener('click' , showing);
+
+function showing(){
+    renderList();
+        button.removeEventListener('click',showing);
+
+}
+
+
 
 function renderList() {
-
     let ul = document.getElementById('unlist');
 
     for (let i = 0; i < BusMull.allimages.length; i++) {
@@ -149,6 +158,5 @@ function renderList() {
     }          
 
 }
-
 
 
