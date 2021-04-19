@@ -1,7 +1,7 @@
 'use strict';
 
 
-let containerElement = document.getElementById('container')
+let containerElement = document.getElementById('sec')
 
 let leftImageElement = document.getElementById('leftimge');
 let middleImageElement = document.getElementById('middleimge');
@@ -89,9 +89,11 @@ function renderThreeImage() {
 renderThreeImage();
 
 
-leftImageElement.addEventListener('click', handleClicking);
-middleImageElement.addEventListener('click', handleClicking);
-rightImageElement.addEventListener('click', handleClicking);
+// leftImageElement.addEventListener('click', handleClicking);
+// middleImageElement.addEventListener('click', handleClicking);
+// rightImageElement.addEventListener('click', handleClicking);
+
+containerElement.addEventListener('click' , handleClicking);
 
 
 function handleClicking(event) {
@@ -123,20 +125,28 @@ function handleClicking(event) {
         renderThreeImage();
 
     }else{
-        renderList();
-
-        leftImageElement.removeEventListener('click', handleClicking);
-        middleImageElement.removeEventListener('click', handleClicking);
-        rightImageElement.removeEventListener('click', handleClicking);
+        // renderList();
+        alert('Click Submit');
+        counts--;
+        containerElement.removeEventListener('click', handleClicking);
     
     }
 
 
 }
 
+let button = document.getElementById('btn');
+button.addEventListener('click' , showing);
+
+function showing(){
+    renderList();
+        button.removeEventListener('click',showing);
+
+}
+
+
 
 function renderList() {
-
     let ul = document.getElementById('unlist');
 
     for (let i = 0; i < BusMull.allimages.length; i++) {
@@ -149,6 +159,5 @@ function renderList() {
     }          
 
 }
-
 
 
