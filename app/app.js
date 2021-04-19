@@ -15,7 +15,7 @@ let rightImageElement = document.getElementById('rightimge');
 
 
 
-let maxtry = 6;
+let maxtry = 25;
 let count = 0;
 BusMull.allimages = [];
 
