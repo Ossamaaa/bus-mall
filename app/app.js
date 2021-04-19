@@ -8,28 +8,33 @@ let middleImageElement = document.getElementById('middleimge');
 let rightImageElement = document.getElementById('rightimge');
 
 
-function genrateRandomIndex() {
-    return Math.floor(Math.random() * BusMull.allimages.length);
 
-}
 
-let maxtry = 25;
+
+
+
+
+
+let maxtry = 6;
 let count = 0;
 BusMull.allimages = [];
 
 let leftimgeindex;
 let middleimgeindex;
 let rightimgeindex;
+let ofNames = [];
+let ofArry = [];
 
 function BusMull(names, filePath) {
     this.names = names;
     this.filePath = filePath;
     this.timesImagShown = 0;
     this.votes = 0;
-    this.shown =0;
-
+    this.shown = 0;
+    this.ofRandom = [];
 
     BusMull.allimages.push(this);
+    ofNames.push(this.names);
 
 }
 
@@ -60,6 +65,24 @@ new BusMull('fruit-glass', `/img/fruit-glass.jpg`);
 
 // console.log(BusMull);
 
+    function genrateRandomIndex() {
+        let random = Math.floor(Math.random() * BusMull.allimages.length);
+          while (ofArry.includes(random)){
+              random = Math.floor(Math.random() * BusMull.allimages.length);
+              
+              
+          };
+          return random;
+      }
+  
+
+
+
+
+
+
+
+
 function renderThreeImage() {
 
     leftimgeindex = genrateRandomIndex();
@@ -68,7 +91,11 @@ function renderThreeImage() {
 
 
 
-    while ((leftimgeindex === rightimgeindex) || (leftimgeindex === middleimgeindex) || (rightimgeindex === middleimgeindex)) {
+
+
+
+
+    while ((leftimgeindex === rightimgeindex) || (leftimgeindex === middleimgeindex) || (rightimgeindex === middleimgeindex )) {
 
         leftimgeindex = genrateRandomIndex();
         middleimgeindex = genrateRandomIndex();
@@ -76,7 +103,7 @@ function renderThreeImage() {
 
     }
     // console.log(renderThreeImage);
-    console.log(BusMull.allimages);
+    // console.log(BusMull.allimages);
 
 
     leftImageElement.src = BusMull.allimages[leftimgeindex].filePath;
@@ -84,16 +111,19 @@ function renderThreeImage() {
     rightImageElement.src = BusMull.allimages[rightimgeindex].filePath;
 
 
+
+ofArry= [];
+ofArry.push(leftimgeindex,middleimgeindex,rightimgeindex);
+
 }
+
 
 renderThreeImage();
 
 
-// leftImageElement.addEventListener('click', handleClicking);
-// middleImageElement.addEventListener('click', handleClicking);
-// rightImageElement.addEventListener('click', handleClicking);
 
-containerElement.addEventListener('click' , handleClicking);
+
+containerElement.addEventListener('click', handleClicking);
 
 
 function handleClicking(event) {
@@ -121,43 +151,67 @@ function handleClicking(event) {
         }
 
 
-        
+
         renderThreeImage();
 
-    }else{
-        // renderList();
-        alert('Click Submit');
-        counts--;
+    } else {
+
         containerElement.removeEventListener('click', handleClicking);
-    
+
     }
 
 
 }
 
 let button = document.getElementById('btn');
-button.addEventListener('click' , showing);
+button.addEventListener('click', showing);
 
-function showing(){
+function showing() {
     renderList();
-        button.removeEventListener('click',showing);
+    button.removeEventListener('click', showing);
 
 }
 
-
-
+let ofVotes = [];
+let ofShown = [];
 function renderList() {
     let ul = document.getElementById('unlist');
 
     for (let i = 0; i < BusMull.allimages.length; i++) {
+        ofVotes.push(BusMull.allimages[i].votes);
+        ofShown.push(BusMull.allimages[i].shown);
         let li = document.createElement('li');
         ul.appendChild(li);
 
         li.textContent = `${BusMull.allimages[i].names} it has ${BusMull.allimages[i].votes} votes , and the times was ${BusMull.allimages[i].shown}.`
 
 
-    }          
+    }
 
 }
+let ctx = document.getElementById('myChart')
+let myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ofNames,
+        datasets: [{
+            label: 'Number of Votes',
+            data: ofVotes,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
 
+            ],
+            borderWidth: 1
+        }, {
+            label: '# Of Shown',
+            data: ofShown,
+            backgroundColor: [
+                'rgb(128,128,128)'
 
+            ],
+            borderWidth: 1
+
+        }]
+    }
+
+})
