@@ -35,7 +35,6 @@ function BusMull(names, filePath) {
 
     BusMull.allimages.push(this);
     ofNames.push(this.names);
-
 }
 
 
@@ -65,23 +64,34 @@ new BusMull('fruit-glass', `/img/fruit-glass.jpg`);
 
 // console.log(BusMull);
 
-    function genrateRandomIndex() {
-        let random = Math.floor(Math.random() * BusMull.allimages.length);
-          while (ofArry.includes(random)){
-              random = Math.floor(Math.random() * BusMull.allimages.length);
-              
-              
-          };
-          return random;
-      }
-  
+function genrateRandomIndex() {
+    let random = Math.floor(Math.random() * BusMull.allimages.length);
+    while (ofArry.includes(random)) {
+        random = Math.floor(Math.random() * BusMull.allimages.length);
+
+
+    };
+    return random;
+}
+
+
+function saveLs() {
+    let saveLS = JSON.stringify(BusMull.allimages);
+    localStorage.setItem('saveList', saveLS);
+
+}
 
 
 
+function manyVotes(){
+   let many = localStorage.getItem('saveList');
+   let convert = JSON.parse(many);
 
-
-
-
+if (convert!==null) {
+    BusMull.allimages=convert;
+    renderList();
+}
+}
 
 function renderThreeImage() {
 
@@ -90,12 +100,7 @@ function renderThreeImage() {
     rightimgeindex = genrateRandomIndex();
 
 
-
-
-
-
-
-    while ((leftimgeindex === rightimgeindex) || (leftimgeindex === middleimgeindex) || (rightimgeindex === middleimgeindex )) {
+    while ((leftimgeindex === rightimgeindex) || (leftimgeindex === middleimgeindex) || (rightimgeindex === middleimgeindex)) {
 
         leftimgeindex = genrateRandomIndex();
         middleimgeindex = genrateRandomIndex();
@@ -111,8 +116,8 @@ function renderThreeImage() {
     rightImageElement.src = BusMull.allimages[rightimgeindex].filePath;
 
 
-ofArry= [];
-ofArry.push(leftimgeindex,middleimgeindex,rightimgeindex);
+    ofArry = [];
+    ofArry.push(leftimgeindex, middleimgeindex, rightimgeindex);
 
 }
 
@@ -167,6 +172,7 @@ button.addEventListener('click', showing);
 
 function showing() {
     renderList();
+    saveLs();
     button.removeEventListener('click', showing);
 
 }
@@ -175,6 +181,7 @@ let ofVotes = [];
 let ofShown = [];
 function renderList() {
     let ul = document.getElementById('unlist');
+    ul.innerHTML = ''
 
     for (let i = 0; i < BusMull.allimages.length; i++) {
         ofVotes.push(BusMull.allimages[i].votes);
@@ -187,35 +194,36 @@ function renderList() {
 
     }
     barChart();
-    
+
 }
 
 
-function barChart(){
-let ctx = document.getElementById('myChart')
-let myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ofNames,
-        datasets: [{
-            label: 'Number of Votes',
-            data: ofVotes,
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
+function barChart() {
+    let ctx = document.getElementById('myChart')
+    let myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ofNames,
+            datasets: [{
+                label: 'Number of Votes',
+                data: ofVotes,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
 
-            ],
-            borderWidth: 1
-        }, {
-            label: '# Of Shown',
-            data: ofShown,
-            backgroundColor: [
-                'rgb(128,128,128)'
+                ],
+                borderWidth: 1
+            }, {
+                label: '# Of Shown',
+                data: ofShown,
+                backgroundColor: [
+                    'rgb(128,128,128)'
 
-            ],
-            borderWidth: 1
+                ],
+                borderWidth: 1
 
-        }]
-    }
+            }]
+        }
 
-})
+    })
 }
+manyVotes();
