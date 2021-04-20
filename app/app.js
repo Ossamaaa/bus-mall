@@ -111,7 +111,6 @@ function renderThreeImage() {
     rightImageElement.src = BusMull.allimages[rightimgeindex].filePath;
 
 
-
 ofArry= [];
 ofArry.push(leftimgeindex,middleimgeindex,rightimgeindex);
 
@@ -187,8 +186,12 @@ function renderList() {
 
 
     }
-
+    barChart();
+    
 }
+
+
+function barChart(){
 let ctx = document.getElementById('myChart')
 let myChart = new Chart(ctx, {
     type: 'bar',
@@ -215,3 +218,4 @@ let myChart = new Chart(ctx, {
     }
 
 })
+}
